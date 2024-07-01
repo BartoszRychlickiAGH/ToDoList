@@ -7,10 +7,10 @@
 bool isText(const string& text) {
 	for (char c : text) {
 		if (!isalpha(c) && c != ' ') {
-			return true;
+			return false;
 		}
 	}
-	return false;
+	return true;
 }
 bool idExist(const vector<ToDos>& collection, string& id) {
 	for (const ToDos& ToDo : collection) {
@@ -23,10 +23,10 @@ bool idExist(const vector<ToDos>& collection, string& id) {
 bool isDigit(const string& text) {
 	for (char c : text) {
 		if (!isdigit(c)) {
-			return true;
+			return false;
 		}
 	}
-	return false;
+	return true;
 }
 
 

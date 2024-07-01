@@ -66,9 +66,9 @@ class User {
 				} while (!isDigit(n));
 				toDos[stoi(n) - 1].Manage();
 				do {
-					cout << "Do you want to edit another ToDo? (Tak/Nie): ";
+					cout << "Do you want to edit another ToDo? (Yes/No): ";
 					cin>> input;
-				} while (!regex_match(input, regex("[Nn]ie")) || !regex_match(input, regex("[Tt]ak")));
+				} while (!regex_match(input, regex("[Nn]o")) and !regex_match(input, regex("[Yy]es")));
 				system("cls");
 			}
 		}
