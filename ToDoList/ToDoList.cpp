@@ -18,8 +18,6 @@ int main() {
 	vector<class User> users;
 	cout << "Welcome to the ToDoList program!" << endl;
 	while (true) {
-		system("pause");
-		system("cls");
 		string username{}, decision{}, password{};
 		bool exist{false};
 		cout << "Do you want to exit? (Yes/No): " << endl;
@@ -44,7 +42,7 @@ int main() {
 						cout << "2. Add ToDo" << endl;
 						cout << "3. Remove ToDo" << endl;
 						cout << "4. Edit ToDo" << endl;
-						cout << "5. Exit" << endl;
+						cout << "5. Log out" << endl;
 						cin >> decision;
 						if (!regex_match(decision, regex("[1-5]+"))) {
 							cout << "Invalid input!" << endl;
@@ -114,6 +112,7 @@ int main() {
 									validation = false;
 								}
 							} while (!validation);
+							users[k].removeToDo(stoi(n));
 							cout << "DELETED!" << endl;
 							system("pause");
 							system("cls");
@@ -184,7 +183,9 @@ bool checkDate(string day, string month) {
 
 	return true;
 }
-void Register(string &username, vector <class User> &users) {
+void Register(string &username, vector <class User> &users) {//adding to vector of users
+		//jeśli nie istnieje -> jeśli zgoda -> tworzenie nowego użytkownika
+		//jeśli nie istnieje -> jeśli nie zgoda -> powrót do wprowadzenia nazwy użytkownika
 	string decision{""};
 	do {
 		cout << "Do you want to create a new account? (Yes/No): " << endl;
@@ -203,9 +204,7 @@ void Register(string &username, vector <class User> &users) {
 		else {
 			cout << "Invalid input!" << endl;
 		}
-		//adding to vector of users
-		//jeśli nie istnieje -> jeśli zgoda -> tworzenie nowego użytkownika
-		//jeśli nie istnieje -> jeśli nie zgoda -> powrót do wprowadzenia nazwy użytkownika
+		
 
 	} while (!regex_match(decision, regex("[Yy]es")) and !regex_match(decision, regex("[Nn]o")));
 }

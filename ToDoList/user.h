@@ -47,12 +47,8 @@ class User {
 		void addToDo(ToDos toDo) {
 			toDos.push_back(toDo);
 		}
-		void removeToDo(string name) {
-			for (int i = 0; i < toDos.size(); i++) {
-				if (toDos[i].getName() == name) {
-					toDos.erase(toDos.begin() + i);
-				}
-			}
+		void removeToDo(int i) {
+			toDos.erase(toDos.begin() + i-1);
 		}
 		void editToDo() {
 			string n, input{"Yes"};
