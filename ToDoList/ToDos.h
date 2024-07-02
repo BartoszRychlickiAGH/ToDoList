@@ -77,26 +77,32 @@ class ToDos {
 					setDescription(n);
 				}
 				else if (n == "3") {
+					bool validation1;
 					system("cls");
-					cout << "Enter new priority: ";
-					cin.ignore();
-					getline(cin, n);
+					do {
+						cout << "Enter priority of todos(Urgent/Hard/Low): ";
+						getline(cin, n);
+						if (regex_match(n,regex("[A-Za-z]+"))) {
+							if (regex_match(n, regex("[Uu]rgent")) or regex_match(n, regex("[Ll]ow")) or regex_match(n, regex("[Hh]ard"))) {
+								validation1 = true;
+							}
+							else {
+								validation1 = false;
+							}
+						}
+						else {
+							validation1 = false;
+						}
+					} while (!validation1);
 					setPriority(n);
 				}
 				else if (n == "4") {
 					system("cls");
-					vector<int>date;
-					cout << "Enter new due date: ";
-
-					for (int i = 0; i < 3; i++) {
-						cin >> n;
-						date.push_back(stoi(n));
-					}
-
+					vector<int>date=setDate();
 					setDueDate(date);
 				}
 				else {
-					break;
+					return;
 				}
 			};
 		}//manage todos

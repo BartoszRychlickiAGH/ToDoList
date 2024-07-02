@@ -55,11 +55,9 @@ class User {
 			}
 		}
 		void editToDo() {
-			string n, input{};
-			while (!regex_match(input, regex("[Tt]ak"))) {
-
+			string n, input{"Yes"};
+			while (true) {
 				do {
-
 					displayTodos();
 					cout << "Enter the number of the ToDo you want to edit: ";
 					cin >> n;
@@ -67,8 +65,10 @@ class User {
 				toDos[stoi(n) - 1].Manage();
 				do {
 					cout << "Do you want to edit another ToDo? (Yes/No): ";
-					cin>> input;
+					cin.ignore();
+					getline(cin, input);
 				} while (!regex_match(input, regex("[Nn]o")) and !regex_match(input, regex("[Yy]es")));
+				if (regex_match(input, regex("[Nn]o"))) { break; }
 				system("cls");
 			}
 		}

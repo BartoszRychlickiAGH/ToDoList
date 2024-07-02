@@ -18,6 +18,8 @@ int main() {
 	vector<class User> users;
 	cout << "Welcome to the ToDoList program!" << endl;
 	while (true) {
+		system("pause");
+		system("cls");
 		string username{}, decision{}, password{};
 		bool exist{false};
 		cout << "Do you want to exit? (Yes/No): " << endl;
@@ -56,7 +58,7 @@ int main() {
 					}
 					else if (decision == "2") { // add new todos
 						string name{}, description{}, priority{};
-						string day{}, month{}, year{ "2024" };
+						vector<int>date;
 						bool validation1{}, validation2{};
 						do {
 							cout << "Enter name of todos: ";
@@ -64,66 +66,69 @@ int main() {
 							getline(cin, name);
 							validation1 = isText(name), validation2 = idExist(users[k].getToDos(), name);
 						} while (!validation1 and !validation2);
-
+						
 						cout << "Enter description of todos: ";
 						getline(cin, description);
-
-						cout << "Enter priority of todos: ";
-						getline(cin, priority);
 						do {
-							cout << "Enter due month: ";
-							getline(cin, month);
-							if (isDigit(month)) {
-								validation1 = stoi(month) < 13 and stoi(month) > 0;
-							}
-							else {
-								validation1 = false;
-								cout << "Entered not a number input" << endl;
-							}
-							if (!validation1) { cout << "Entered wrong number of month" << endl; }
-						} while (!validation1);
-						do {
-							cout << "Enter due day: ";
-							getline(cin, day);
-							if (isDigit(day)) {
-								if (stoi(month) == 1 or stoi(month) == 3 or stoi(month) == 5 or stoi(month) == 7 or stoi(month) == 8 or stoi(month) == 10 or stoi(month) == 12 and stoi(day) < 32 and stoi(month) > 0) { validation1 = true; }
-								else if (stoi(month) == 2 and stoi(day) > 0 and stoi(day) < 30) { validation1 = true; }
-								else if (stoi(month) == 4 or stoi(month) == 6 or stoi(month) == 9 or stoi(month) == 11 and stoi(day) < 31 and stoi(day) > 0) { validation1 = true; }
+							cout << "Enter priority of todos(Urgent/Hard/Low): ";
+							getline(cin, priority);
+							if (isText(priority)) {
+								if (regex_match(priority, regex("[Uu]rgent")) or regex_match(priority, regex("[Ll]ow")) or regex_match(priority, regex("[Hh]ard"))) {
+									validation1 = true;
+								}
 								else {
 									validation1 = false;
-									cout << "Entered wrong number of day in given month" << endl;
+									cout << "Entered wrong text! Try again!" << endl;
 								}
-
 							}
 							else {
 								validation1 = false;
-								cout << "Entered not a number input" << endl;
+								cout << "Entered not a text! Try again!" << endl;
 							}
 						} while (!validation1);
-						ToDos toDo{ name,description,priority,{stoi(day),stoi(month),stoi(year)} };
+						date = setDate();
+						ToDos toDo{ name,description,priority,date };
 						users[k].addToDo(toDo);
 
 					}
 					else if (decision == "3") {
-						string n{};
-						do {
-
-							for (int j = 0; j <= users.size() - 1; j++) {
-								cout << ++j << ": " << endl;
-								users[k].getToDos()[j].display(); cout << "\n--------------------------------\n";
-							}
-							cout << "Enter number of ToDos to delete: " << endl;//remove todo
-							cin.ignore();
-							getline(cin, n);
-						} while (!isDigit(n) and stoi(n) > 0 and stoi(n) <= users[k].getToDos().size());
-						users[k].getToDos().erase(users[k].getToDos().begin() + stoi(n) - 1);
-						cout << "DELETED!" << endl;
-						system("pause");
-						system("cls");
+						if (users[k].getToDos().size() > 0) {
+							string n{};
+							bool validation{};
+							do {
+								users[k].displayTodos();
+								cout << "Enter number of ToDos to delete: " << endl;//remove todo
+								cin.ignore();
+								getline(cin, n);
+								if (isDigit(n)) {
+									if (stoi(n) > 0 and stoi(n) <= users[k].getToDos().size()) {
+										validation = true;
+									}
+									else {
+										cout << "Entered wrong number! Try again!" << endl;
+										validation = false;
+									}
+								}
+								else {
+									cout << "Entered not a number! Try again!" << endl;
+									validation = false;
+								}
+							} while (!validation);
+							cout << "DELETED!" << endl;
+							system("pause");
+							system("cls");
+						}
+						else {
+							cout << "There are no ToDos to delete!" << endl;
+						}
 					}
 					else if (decision == "4") {
-						cout << "Choose ToDos to edit: " << endl;//edit todos
-						users[k].editToDo();
+						if (users[k].getToDos().size() > 0) {
+							cout << "Choose ToDos to edit: " << endl;//edit todos
+							users[k].editToDo();
+						}else{
+							cout << "There are no ToDos to edit!" << endl;
+						}
 					}
 					else if (decision == "5") {
 						break; //exit
